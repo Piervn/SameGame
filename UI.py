@@ -1,43 +1,60 @@
-from operator import eq, ne
-from PyQt6.QtWidgets import QApplication, QWidget, QMainWindow, QGridLayout, QPushButton, QLabel, QLineEdit, QTextEdit, QMessageBox
-import sys
+import pygame as pg
+from game_constants import *
 
-class Window(QMainWindow):
-    def __init__(self, ax, ay, width, height, size = 10):
-        super().__init__()
-        self.size = size
-        self.setGeometry(ax, ay, width, height)
-        self.setWindowTitle("SameGame")
-        self.initUI()
-        self.show()
+
+class GameBoard:
+    def __init__(self, owner):
+        cells = 10
+        top_offset = 300
+        center_margin = 60
+        if owner == 'player':
+            side_offset = CENTER_X - (CELL_SIZE * cells) - center_margin - (cells * MARGIN)
+        elif owner == 'ai':
+            side_offset = CENTER_X + center_margin
+        grid = []
+        for y in range(cells):
+            row = []
+            for x in range(cells):
+                row.append([side_offset + (x * (CELL_SIZE + MARGIN)), y * (CELL_SIZE + MARGIN) + top_offset])
+            grid.append(row)
+        self.GRID = grid
         
-    def initUI(self):
-        widget = QWidget()
-        self.setCentralWidget(widget)
-        self.init_board(widget)
+    def __iter__(self):
+        return iter(self.GRID)
+
+
+class GameWindow:
+    def __init__(self):
+        self.WIN = pg.display.set_mode((WIDTH, HEIGHT))
+        self.clock = pg.time.Clock()
+        pg.display.set_caption("SameGame")
+        self.game_loop()
         
-    def init_board(self, widget):
-        self.board = QWidget()
-        self.grid = QGridLayout()
-        self.grid_buttons = {}
-        for i in range(self.size):
-            for j in range(self.size):
-                x = self.size - i - 1
-                y = j
-                button = QPushButton(f'{x} {y}')
-                button.setMinimumSize(50, 50)
-                self.grid_buttons[x, y] = button
-                self.grid.addWidget(self.grid_buttons[x, y], i, j)
-        widget.setLayout(self.grid)
+    def game_loop(self):
+        running = True
+        while running:
+            self.clock.tick(60)
+            for event in pg.event.get():
+                if event.type == pg.QUIT:
+                    running = False
+            self.draw_window()
+        quit()
+        
+    def draw_window(self):
+        self.WIN.fill(BG_COLOR)
+        self.draw_board('player')
+        self.draw_board('ai')
+        pg.display.update()
+        
+    def draw_board(self, owner):
+        board = GameBoard(owner)
+        for row in board:
+            for x, y in row:
+                pg.draw.rect(self.WIN, CELL_COLOR, (x, y, CELL_SIZE, CELL_SIZE))
+        
+        
     
-    
-def RunWindow():
-    WIDTH = 600
-    HEIGHT = 600
-    AX = 600
-    AY = 300
-    app = QApplication(sys.argv)
-    win = Window(AX, AY, WIDTH, HEIGHT)
-    sys.exit(app.exec())
-    
-RunWindow()
+
+
+if __name__ == '__main__':
+    game = GameWindow()

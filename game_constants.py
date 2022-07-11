@@ -1,0 +1,13 @@
+#wymiary
+WIDTH = 1200
+HEIGHT = 800
+CENTER_X = WIDTH / 2
+CENTER_Y = HEIGHT / 2
+
+# kolorki
+BG_COLOR = (200, 200, 200)
+
+#plansza
+CELL_SIZE = 40
+MARGIN = 1
+CELL_COLOR = (100, 100, 100)
