@@ -1,6 +1,6 @@
 # SameGame
 
-Single player game with a twist. Beat the AI based on **Monte Carlo Tree Search** alogrithm.
+Single player game with a twist. Beat the AI based on **Monte Carlo Tree Search** algorithm.
 
 ## Game rules
 
