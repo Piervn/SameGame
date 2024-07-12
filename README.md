@@ -15,7 +15,7 @@ Your main goal is to beat the AI. Let's call it Mike. You and Mike get the same 
 
 ## AI settings
 
-Mike doesn't always has a good day. He sometimes makes mistakes.
+Mike doesn't always have a good day. He sometimes makes mistakes.
 He has his own value of infallibility.
 The greater value you set, the less mistakes he will make.
 Also, the greater value you set, the more time it takes for Mike to choose and make a move.
